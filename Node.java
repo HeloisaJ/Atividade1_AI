@@ -24,6 +24,14 @@ public class Node{
         return cost;
     }
 
+    public LinkedList<Node> getSons() {
+        return sons;
+    }
+
+    public State getState() {
+        return state;
+    }
+
     public boolean isGoalState(){
         return this.state.isGoal();
     }

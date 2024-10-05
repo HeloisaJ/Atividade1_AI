@@ -18,17 +18,18 @@ public class Enviroment {
     }
 
     private Node iterativeDeepening(){
-        Node n;
+        Node n = null;
         for(int i = 1; i < Integer.MAX_VALUE; i++){
             n = depthLimitedSearch(this.root, i);
             if(n.isGoalState()){
-                return n;
+                break;
             }
             else if(n.getCost() <= i){
                 // sem solução
+                
             }
         }
-        
+        return n;
     }
 
     private Node depthLimitedSearch(Node r, int l){
@@ -43,16 +44,30 @@ public class Enviroment {
             }
             else if(!reached.contains(r)){
                 LinkedList<Node> child = new LinkedList<>();
-                // expand
+                if(r.getSons() != null){
+                    child = r.getSons();
+                }
+                else{
+                    expand(r, child);
+                }
+
+                for(int i = 0; i < child.size(); i++){
+                    frontier.add(child.get(i));
+                }
             }
         }
         return r;
     }
 
-    private void expand(LinkedList<Node> child){
+    private void expand(Node r, LinkedList<Node> child){
+        int dx[] = this.actions.getDx();
+        int dy[] = this.actions.getDy();
+        char a[] = this.actions.getActName();
+        Node c;
         for(int i = 0; i < this.actions.getQuantActions(); i++){
-            if(){
-
+            if(r.getState().validAction(dx[i], dy[i])){
+                c = new Node(r.getCost() + 1, r.getState().createState(dx[i], dy[i]), r, a[i]);
+                child.add(c);
             }
         }
     }
