@@ -35,4 +35,18 @@ public class Node{
     public boolean isGoalState(){
         return this.state.isGoal();
     }
+
+    public void setSons(LinkedList<Node> n){
+        this.sons = n;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        Node x = (Node) o;
+        return this.state.equals(x.getState());
+    }
 }

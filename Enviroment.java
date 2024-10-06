@@ -19,14 +19,14 @@ public class Enviroment {
 
     private Node iterativeDeepening(){
         Node n = null;
-        for(int i = 1; i < Integer.MAX_VALUE; i++){
+        for(int i = 1; i <= 20; i++){
             n = depthLimitedSearch(this.root, i);
             if(n.isGoalState()){
                 break;
             }
-            else if(n.getCost() <= i){
-                // sem solução
-                
+            else if(n.getCost() + 1 < i){
+                System.out.println("Não existe uma solução");
+                break;
             }
         }
         return n;
@@ -39,24 +39,31 @@ public class Enviroment {
 
         while(!frontier.isEmpty()){
             r = frontier.pop();
-            if(r.isGoalState() || r.getCost() > l){
+            if(r.isGoalState()){
                 return r;
             }
-            else if(!reached.contains(r)){
+            else if(r.getCost() + 1 < l && !reached.contains(r)){
                 LinkedList<Node> child = new LinkedList<>();
                 if(r.getSons() != null){
                     child = r.getSons();
                 }
                 else{
                     expand(r, child);
+                    r.setSons(child);
                 }
 
-                for(int i = 0; i < child.size(); i++){
-                    frontier.add(child.get(i));
-                }
+                addChildToFrontier(child, frontier);
             }
+            reached.add(r);
         }
+
         return r;
+    }
+
+    private void addChildToFrontier(LinkedList<Node> child, Stack<Node> frontier){
+        for(int i = 0; i < child.size(); i++){
+            frontier.add(child.get(i));
+        }
     }
 
     private void expand(Node r, LinkedList<Node> child){
