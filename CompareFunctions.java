@@ -10,12 +10,12 @@ public class CompareFunctions {
 
     public void executeComparison(State s){
         long res = executeEnv(s, env1);
-        System.out.println("Tempo para execução do algoritmo 1: " + res);
+        System.out.println("Tempo para execução do algoritmo 1: " + res/1000000.0 + " ms.");
 
         System.out.println("-----------------------------------------------------------------------");
 
         long res2 = executeEnv(s, env2);
-        System.out.println("Tempo para execução do algoritmo 2: " + res);
+        System.out.println("Tempo para execução do algoritmo 2: " + res/1000000.0 + " ms.");
 
         System.out.println("-----------------------------------------------------------------------");
 
@@ -24,6 +24,7 @@ public class CompareFunctions {
             x = 2;
         }
         System.out.println("O algoritmo que executou mais rápido foi o " + x);
+        System.out.println("");
     }
 
     private long executeEnv(State s, Environment e){

@@ -36,10 +36,10 @@ public class State {
         int cont = 0;
         for(int i = 0; i < cube.length; i++){
             for(int j = 0; j < cube.length; j++){
-                cont++;
-                if(cont != this.cube[i][j] && cont != 9){
+                if(cont != this.cube[i][j]){
                     return false;
                 }
+                cont++;
             }
         }
         return true;

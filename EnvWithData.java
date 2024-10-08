@@ -31,7 +31,7 @@ public class EnvWithData implements Environment{
                 break;
             }
         }
-        System.out.println("Interação final: " + i);
+        System.out.println("Iteração final: " + i);
         System.out.println();
         return n;
     }
