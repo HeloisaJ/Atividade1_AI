@@ -19,16 +19,20 @@ public class EnvWithData implements Environment{
 
     private Node iterativeDeepening(){
         Node n = null;
-        for(int i = 1; i <= 20; i++){
+        int i;
+        for(i = 1; i <= 20; i++){
             n = depthLimitedSearch(this.root, i);
             if(n.isGoalState()){
+                System.out.println("Solução encontrada !");
                 break;
             }
             else if(n.getCost() + 1 != i){
-                System.out.println("Não existe uma solução");
+                System.out.println("Não existe uma solução para esse estado.");
                 break;
             }
         }
+        System.out.println("Interação final: " + i);
+        System.out.println();
         return n;
     }
 

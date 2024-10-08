@@ -12,8 +12,12 @@ public class CompareFunctions {
         long res = executeEnv(s, env1);
         System.out.println("Tempo para execução do algoritmo 1: " + res);
 
+        System.out.println("-----------------------------------------------------------------------");
+
         long res2 = executeEnv(s, env2);
         System.out.println("Tempo para execução do algoritmo 2: " + res);
+
+        System.out.println("-----------------------------------------------------------------------");
 
         int x = 1;
         if(res2 < res){
@@ -33,6 +37,6 @@ public class CompareFunctions {
     private void revealLastState(Node n){
         System.out.println("Estado final: ");
         n.getState().showState();
-        System.out.println("Quantidade de movimentos realizados: " + n.getCost());
+        System.out.println("Quantidade de movimentos (profundidade): " + n.getCost());
     }
 }
