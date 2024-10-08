@@ -43,10 +43,4 @@ public class Node{
     public void setCost(int cost) {
         this.cost = cost;
     }
-
-    @Override
-    public boolean equals(Object o){
-        Node x = (Node) o;
-        return this.state.equals(x.getState());
-    }
 }

@@ -3,12 +3,12 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.Stack;
 
-public class Enviroment {
+public class EnvWithData implements Environment{
     
     private Node root; // estrutura de dados, árvore
     private Actions actions;
 
-    public Enviroment(Actions a){
+    public EnvWithData(Actions a){
         this.actions = a;
     }
 
@@ -24,7 +24,7 @@ public class Enviroment {
             if(n.isGoalState()){
                 break;
             }
-            else if(n.getCost() + 1 < i){
+            else if(n.getCost() + 1 != i){
                 System.out.println("Não existe uma solução");
                 break;
             }
@@ -33,28 +33,30 @@ public class Enviroment {
     }
 
     private Node depthLimitedSearch(Node r, int l){
-        Set<Node> reached = new HashSet<>();
+        Set<State> reached = new HashSet<>();
         Stack<Node> frontier = new Stack<>();
         frontier.add(r);
+        State s;
 
         while(!frontier.isEmpty()){
             r = frontier.pop();
-            if(r.isGoalState()){
+            s = r.getState();
+
+            if(s.isGoal()){
                 return r;
             }
-            else if(r.getCost() + 1 < l && !reached.contains(r)){
-                LinkedList<Node> child = new LinkedList<>();
-                if(r.getSons() != null){
-                    child = r.getSons();
-                }
-                else{
-                    expand(r, child);
+            else if(r.getCost() + 1 < l && !reached.contains(s)){
+                LinkedList<Node> child = r.getSons();
+
+                if(child == null){
+                    child = new LinkedList<>();
+                    expand(r, s, child);
                     r.setSons(child);
                 }
 
                 addChildToFrontier(child, frontier);
             }
-            reached.add(r);
+            reached.add(s);
         }
 
         return r;
@@ -66,14 +68,15 @@ public class Enviroment {
         }
     }
 
-    private void expand(Node r, LinkedList<Node> child){
+    private void expand(Node r, State s, LinkedList<Node> child){
         int dx[] = this.actions.getDx();
         int dy[] = this.actions.getDy();
         char a[] = this.actions.getActName();
         Node c;
         for(int i = 0; i < this.actions.getQuantActions(); i++){
-            if(r.getState().validAction(dx[i], dy[i])){
-                c = new Node(r.getCost() + 1, r.getState().createState(dx[i], dy[i]), r, a[i]);
+            if(s.validAction(dx[i], dy[i])){
+
+                c = new Node(r.getCost() + 1, s.createState(dx[i], dy[i]), r, a[i]);
                 child.add(c);
             }
         }

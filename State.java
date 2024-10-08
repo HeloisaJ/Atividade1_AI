@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class State {
     
     private int cube[][];
@@ -89,14 +91,15 @@ public class State {
 
     @Override
     public boolean equals(Object o){
-        State s = (State) o;
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                if(s.cube[i][j] != this.cube[i][j]){
-                    return false;
-                }
-            }
+        if(this == o){
+            return true;
         }
-        return true;
-    } 
+        State s = (State) o;
+        return Arrays.deepEquals(this.cube, s.cube);
+    }
+
+    @Override
+    public int hashCode(){
+        return Arrays.deepHashCode(this.cube);
+    }
 }
