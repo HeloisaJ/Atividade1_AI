@@ -13,6 +13,12 @@ public class Node{
         this.state = s;
     }
 
+    public Node(int cost, State s, char a){
+        this.cost = cost;
+        this.state = s;
+        this.act = a;
+    }
+
     public Node(int cost, State s, Node f, char a){
         this.cost = cost;
         this.state = s;
@@ -32,6 +38,10 @@ public class Node{
         return state;
     }
 
+    public Character getAct() {
+        return act;
+    }
+
     public boolean isGoalState(){
         return this.state.isGoal();
     }
@@ -42,5 +52,9 @@ public class Node{
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public void setAct(Character act) {
+        this.act = act;
     }
 }

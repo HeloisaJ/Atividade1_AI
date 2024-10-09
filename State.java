@@ -63,13 +63,29 @@ public class State {
 
         int[][] mat = new int[this.cube.length][this.cube.length];
         copy(mat);
+
         int newX = position(dx, this.xZero);
         int newY = position(dy, this.yZero);
         
-        mat[this.xZero][this.yZero] = mat[newX][newY];
-        mat[newX][newY] = 0;
+        move(newX, newY, mat);
         State s = new State(mat, newX, newY);
         return s;
+    }
+
+    private void move(int newX, int newY, int mat[][]){
+        mat[this.xZero][this.yZero] = mat[newX][newY];
+        mat[newX][newY] = 0;
+    }
+
+    public void modifyState(int dx, int dy){
+
+        int newX = position(dx, this.xZero);
+        int newY = position(dy, this.yZero);
+
+        move(newX, newY, this.cube);
+        this.xZero = newX;
+        this.yZero = newY;
+
     }
 
     private void copy(int mat[][]){

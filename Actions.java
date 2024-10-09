@@ -21,4 +21,10 @@ public class Actions {
         return quantActions;
     }
 
+    public int getOpositeAction(int pos){
+        if(pos <= 1){
+            return pos + 2;
+        }
+        return pos - 2;
+    }
 }
