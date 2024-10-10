@@ -13,7 +13,6 @@ public class EnvModState implements Environment{
     @Override
     public Node executeAlgorithm(State s) {
         Node initial = new Node(0, s);
-        initial.setAct('-');
         return iterativeDeepening(initial);
     }
 
@@ -42,6 +41,10 @@ public class EnvModState implements Environment{
         frontier.add(r);
         State s;
 
+        int dx[] = this.actions.getDx();
+        int dy[] = this.actions.getDy();
+        char a [] = this.actions.getActName();
+
         while(!frontier.isEmpty()){
             r = frontier.pop();
             s = r.getState();
@@ -50,38 +53,35 @@ public class EnvModState implements Environment{
                 return r;
             }
             else if(r.getCost() + 1 < l && !reached.contains(s)){
-                expand(r, s, frontier);
+                // Expandir 
+                Character c = r.getAct();
+
+                int pos = 0;
+                if(c != null){ // Ver como configurar as ações antes e depois da forma certa.
+                    pos = this.actions.getActsPosition(c);
+                }
+                s.modifyState(dx[pos], dy[pos]);
+                r.setAct(a[pos]);
+                r.setFatherAct(c);
+                r.setCost(r.getCost() + 1);
+                frontier.add(r);
             }
             else{
-                
+                Character c = r.getAct();
+                reached.add(s);
+
+                if(c != null){ // Voltar um estado
+
+                    int pos = this.actions.getOpositeAction(c); 
+                    s.modifyState(dx[pos], dy[pos]);
+                    r.setCost(r.getCost() - 1);
+                    r.setAct(r.getFatherAct());
+                    frontier.add(r);
+                }
             }
         }
 
         return r;
     }    
 
-    private void expand(Node r, State s, Stack<Node> frontier){
-        int dx[] = this.actions.getDx();
-        int dy[] = this.actions.getDy();
-        char a[] = this.actions.getActName();
-        char c = r.getAct();
-        int pos;
-        Node n;
-        
-        for(int i = 0; i < this.actions.getQuantActions(); i++){
-            if(s.validAction(dx[i], dy[i])){
-
-                makeMove(r, s, dx[i], dy[i], a[i]);
-                n = new Node(r.getCost() + 1, s, a[i]);
-                frontier.add(n);
-                pos = actions.getOpositeAction(i);
-                makeMove(r, s, dx[pos], dy[pos], c);
-            }
-        }
-    }
-
-    private void makeMove(Node r, State s, int dx, int dy, char ac){
-        s.modifyState(dx, dy);
-        r.setAct(ac);
-    }
 }

@@ -32,6 +32,14 @@ public class State {
         return cube;
     }
 
+    public int getxZero() {
+        return xZero;
+    }
+
+    public int getyZero() {
+        return yZero;
+    }
+
     public boolean isGoal(){
         int cont = 0;
         for(int i = 0; i < cube.length; i++){

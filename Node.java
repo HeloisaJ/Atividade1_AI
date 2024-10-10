@@ -6,7 +6,7 @@ public class Node{
     private Node father;
     private State state;
     private LinkedList<Node> sons;
-    private Character act;
+    private Character act, fatherAct;
 
     public Node(int cost, State s){
         this.cost = cost;
@@ -42,6 +42,10 @@ public class Node{
         return act;
     }
 
+    public Character getFatherAct() {
+        return fatherAct;
+    }
+
     public boolean isGoalState(){
         return this.state.isGoal();
     }
@@ -56,5 +60,9 @@ public class Node{
 
     public void setAct(Character act) {
         this.act = act;
+    }
+
+    public void setFatherAct(Character fatherAct) {
+        this.fatherAct = fatherAct;
     }
 }
