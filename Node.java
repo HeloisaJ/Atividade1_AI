@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class Node{
 
@@ -6,17 +7,12 @@ public class Node{
     private Node father;
     private State state;
     private LinkedList<Node> sons;
-    private Character act, fatherAct;
+    private Character act;
+    private Stack<Character> acts;
 
     public Node(int cost, State s){
         this.cost = cost;
         this.state = s;
-    }
-
-    public Node(int cost, State s, char a){
-        this.cost = cost;
-        this.state = s;
-        this.act = a;
     }
 
     public Node(int cost, State s, Node f, char a){
@@ -42,8 +38,24 @@ public class Node{
         return act;
     }
 
-    public Character getFatherAct() {
-        return fatherAct;
+    public int getActsSize(){
+        return this.acts.size();
+    }
+
+    public Character peekLastAction(){
+        return this.acts.peek();
+    }
+
+    public void popLastAction(){
+        this.acts.pop();
+    }
+
+    public void addAction(Character c){
+        this.acts.add(c);
+    }
+
+    public void initializeActs(){
+        this.acts = new Stack<>();
     }
 
     public boolean isGoalState(){
@@ -60,9 +72,5 @@ public class Node{
 
     public void setAct(Character act) {
         this.act = act;
-    }
-
-    public void setFatherAct(Character fatherAct) {
-        this.fatherAct = fatherAct;
     }
 }

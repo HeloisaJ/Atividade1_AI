@@ -13,6 +13,7 @@ public class EnvModState implements Environment{
     @Override
     public Node executeAlgorithm(State s) {
         Node initial = new Node(0, s);
+        initial.initializeActs();
         return iterativeDeepening(initial);
     }
 
@@ -25,10 +26,10 @@ public class EnvModState implements Environment{
                 System.out.println("Solução encontrada !");
                 break;
             }
-            else if(n.getCost() + 1 != i){
+            /*else if(n.getCost() + 1 != i){
                 System.out.println("Não existe uma solução para esse estado.");
                 break;
-            }
+            }*/
         }
         System.out.println("Iteração final: " + i);
         System.out.println();
@@ -54,28 +55,38 @@ public class EnvModState implements Environment{
             }
             else if(r.getCost() + 1 < l && !reached.contains(s)){
                 // Expandir 
-                Character c = r.getAct();
 
-                int pos = 0;
-                if(c != null){ // Ver como configurar as ações antes e depois da forma certa.
-                    pos = this.actions.getActsPosition(c);
+                int pos = 0, quant = r.getActsSize();
+
+                if(quant > r.getCost()){
+                    pos = findNextMove(r, s, this.actions.getActsPosition(r.peekLastAction()), dx, dy);
+                    r.popLastAction();
                 }
-                s.modifyState(dx[pos], dy[pos]);
-                r.setAct(a[pos]);
-                r.setFatherAct(c);
-                r.setCost(r.getCost() + 1);
-                frontier.add(r);
+                else if(quant == r.getCost()){
+                    pos = findNextMove(r, s, 0, dx, dy);
+                }
+
+                if(pos == this.actions.getQuantActions()){
+                    r.popLastAction(); // Retirar ação só se chegar na última
+                    reached.add(s);
+                    frontier.add(r); // Fazer ele voltar pra voltar um estado
+                }
+                else{
+                    s.modifyState(dx[pos], dy[pos]);
+                    r.addAction(a[pos]); // Adicionar ação a pilha
+                    r.setCost(r.getCost() + 1);
+                    frontier.add(r);
+                }
             }
             else{
-                Character c = r.getAct();
+                int quant = r.getActsSize();
                 reached.add(s);
 
-                if(c != null){ // Voltar um estado
+                if(quant > 0){ // Voltar um estado
 
-                    int pos = this.actions.getOpositeAction(c); 
+                    int pos = this.actions.getOpositeAction(r.peekLastAction()); 
                     s.modifyState(dx[pos], dy[pos]);
                     r.setCost(r.getCost() - 1);
-                    r.setAct(r.getFatherAct());
                     frontier.add(r);
                 }
             }
@@ -84,4 +95,14 @@ public class EnvModState implements Environment{
         return r;
     }    
 
+
+    private int findNextMove(Node r, State s, int ini, int [] dx, int [] dy){
+        int tam = this.actions.getQuantActions();
+        for(int i = ini; i < tam; i++){
+            if(s.validAction(dx[i], dy[i])){
+                return i;
+            }
+        }
+        return tam;
+    }
 }
