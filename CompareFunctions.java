@@ -9,13 +9,19 @@ public class CompareFunctions {
     }
 
     public void executeComparison(State s){
-        long res = executeEnv(s, env1);
+        long res, endTime, startTime = System.nanoTime();
+        executeEnv(s, env1);
+        endTime = System.nanoTime();
+        res = (endTime - startTime);
         System.out.println("Tempo para execução do algoritmo 1: " + res/1000000.0 + " ms.");
 
         System.out.println("-----------------------------------------------------------------------");
 
-        long res2 = executeEnv(s, env2);
-        System.out.println("Tempo para execução do algoritmo 2: " + res/1000000.0 + " ms.");
+        long res2, endTime2, startTime2 = System.nanoTime();
+        executeEnv(s, env2);
+        endTime2 = System.nanoTime();
+        res2 = (endTime2 - startTime2);
+        System.out.println("Tempo para execução do algoritmo 2: " + res2/1000000.0 + " ms.");
 
         System.out.println("-----------------------------------------------------------------------");
 
@@ -27,12 +33,9 @@ public class CompareFunctions {
         System.out.println("");
     }
 
-    private long executeEnv(State s, Environment e){
-        long startTime = System.nanoTime();
+    private void executeEnv(State s, Environment e){
         Node n = e.executeAlgorithm(s);
-        long endTime = System.nanoTime() - startTime;
         revealLastState(n);
-        return endTime;
     }
 
     private void revealLastState(Node n){

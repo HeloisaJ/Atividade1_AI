@@ -29,7 +29,7 @@ public class Actions {
         return quantActions;
     }
 
-    public int getOpositeAction(char c){
+    public int getOpositeAction(Character c){
         int pos = acts.get(c); 
         if(pos <= 1){
             return pos + 2;

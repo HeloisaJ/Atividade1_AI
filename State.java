@@ -67,7 +67,7 @@ public class State {
         return d + n;
     }
 
-    public State createState(int dx, int dy){
+    public State createState(int dx, int dy){ // Cria um novo estado com base em um novo movimento
 
         int[][] mat = new int[this.cube.length][this.cube.length];
         copy(mat);
@@ -80,7 +80,15 @@ public class State {
         return s;
     }
 
-    private void move(int newX, int newY, int mat[][]){
+    public State copyState(){ // Realizar a cópia de um estado
+        int[][] mat = new int[this.cube.length][this.cube.length];
+        copy(mat);
+
+        State s = new State(mat, this.xZero, this.yZero);
+        return s;
+    }
+
+    private void move(int newX, int newY, int mat[][]){ // Realizar a movimentação do espaço em branco em uma matriz mat
         mat[this.xZero][this.yZero] = mat[newX][newY];
         mat[newX][newY] = 0;
     }
